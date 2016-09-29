@@ -14,5 +14,14 @@ public class App {
     String layout = "templates/layout.vtl";
     String header = "templates/header.vtl";
 
+    get("/", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      model.put("title", "Recipe Box");
+      model.put("header", header);
+      model.put("recipes", Recipe.all());
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
   }
 }
