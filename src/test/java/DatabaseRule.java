@@ -4,18 +4,18 @@ import org.sql2o.*;
 public class DatabaseRule extends ExternalResource {
   @Override
   protected void before() {
-    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/virtual_pets_test", null, null);
+    DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/recipe_box_test", null, null);
   }
 
   @Override
   protected void after() {
     try(Connection con = DB.sql2o.open()) {
-      String deletePersonsQuery = "DELETE FROM persons *;";
-      String deleteMonstersQuery = "DELETE FROM monsters *;";
-      String deleteCommunitiesQuery = "DELETE FROM communities *;";
-      con.createQuery(deletePersonsQuery).executeUpdate();
-      con.createQuery(deleteMonstersQuery).executeUpdate();
-      con.createQuery(deleteCommunitiesQuery).executeUpdate();
+      String deleteRecipesQuery = "DELETE FROM recipes *;";
+      String deleteTagsQuery = "DELETE FROM tags *;";
+      String deleteCategoriesQuery = "DELETE FROM categories *;";
+      con.createQuery(deleteRecipesQuery).executeUpdate();
+      con.createQuery(deleteTagsQuery).executeUpdate();
+      con.createQuery(deleteCategoriesQuery).executeUpdate();
     }
   }
 }
