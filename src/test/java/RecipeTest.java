@@ -65,11 +65,33 @@ public class RecipeTest {
     assertEquals(secondRecipe, Recipe.all().get(1));
   }
 
-  // @Test
-  // public void update_updatesRecipeInformation_FondueGrillers() {
-  //   Recipe testRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
-  //   testRecipe.save();
-  //   assertEquals(testRecipe, Recipe.all().get(0));
-  // }
+  @Test
+  public void find_returnsRecipeWithSameId_secondId() {
+    Recipe firstRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    firstRecipe.save();
+    Recipe secondRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    secondRecipe.save();
+    assertEquals(secondRecipe, Recipe.find(secondRecipe.getId()));
+  }
+
+  @Test
+  public void update_updatesRecipeInformation_FondueGrillers() {
+    Recipe testRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    testRecipe.save();
+    testRecipe.update("Fondue Grillers", "Hero", "Pilsbury Croissants, Velveeta Cheese", "Add cheese to croissants");
+    Recipe updateRecipe = Recipe.find(testRecipe.getId());
+    assertEquals("Fondue Grillers", updateRecipe.getName());
+    assertEquals("Hero", updateRecipe.getAuthor());
+    assertEquals("Pilsbury Croissants, Velveeta Cheese", updateRecipe.getIngredients());
+    assertEquals("Add cheese to croissants", updateRecipe.getInstructions());
+  }
+
+  @Test
+  public void delete_deletesRecipeInformation_true() {
+    Recipe testRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    testRecipe.save();
+    testRecipe.delete();
+    assertEquals(null, Recipe.find(testRecipe.getId()));
+  }
 
 }

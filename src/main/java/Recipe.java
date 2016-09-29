@@ -73,14 +73,37 @@ public class Recipe implements DatabaseManagement {
     }
   }
 
-  @Override
-  public void update() {
+  public static Recipe find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM recipes WHERE id = :id";
+      Recipe recipe = con.createQuery(sql)
+                         .addParameter("id", id)
+                         .executeAndFetchFirst(Recipe.class);
+      return recipe;
+    }
+  }
 
+  public void update(String name, String author, String ingredients, String instructions) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE recipes SET name = :name, author = :author, ingredients = :ingredients, instructions = :instructions WHERE id = :id";
+      con.createQuery(sql)
+         .addParameter("id", this.id)
+         .addParameter("name", name)
+         .addParameter("author", author)
+         .addParameter("ingredients", ingredients)
+         .addParameter("instructions", instructions)
+         .executeUpdate();
+    }
   }
 
   @Override
   public void delete() {
-
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM recipes WHERE id = :id";
+      con.createQuery(sql)
+      .addParameter("id", this.id)
+      .executeUpdate();
+    }
   }
 
 }
