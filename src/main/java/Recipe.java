@@ -53,7 +53,24 @@ public class Recipe implements DatabaseManagement {
 
   @Override
   public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO recipes (name, author, ingredients, instructions) VALUES (:name, :author, :ingredients, :instructions)";
+      this.id = (int) con.createQuery(sql, true)
+      .addParameter("name", this.name)
+      .addParameter("author", this.author)
+      .addParameter("ingredients", this.ingredients)
+      .addParameter("instructions", this.instructions)
+      .executeUpdate()
+      .getKey();
+    }
+  }
 
+  public static List<Recipe> all() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM recipes";
+      return con.createQuery(sql)
+      .executeAndFetch(Recipe.class);
+    }
   }
 
   @Override

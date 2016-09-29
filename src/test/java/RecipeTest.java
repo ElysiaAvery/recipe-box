@@ -48,11 +48,28 @@ public class RecipeTest {
     assertTrue(firstRecipe.equals(secondRecipe));
   }
 
+  @Test
+  public void save_savesRecipeIntoDatabase_true() {
+    Recipe testRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    testRecipe.save();
+    assertEquals(testRecipe, Recipe.all().get(0));
+  }
+
+  @Test
+  public void all_returnsAllInstancesOfRecipe_true() {
+    Recipe firstRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    firstRecipe.save();
+    Recipe secondRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
+    secondRecipe.save();
+    assertEquals(firstRecipe, Recipe.all().get(0));
+    assertEquals(secondRecipe, Recipe.all().get(1));
+  }
+
   // @Test
-  // public void save_savesRecipeIntoDatabase_true() {
+  // public void update_updatesRecipeInformation_FondueGrillers() {
   //   Recipe testRecipe = new Recipe("Grilled Cheese", "Sage", "Bread, Cheese", "Add Cheese to Bread");
   //   testRecipe.save();
-  //   assertEquals("Add Cheese to Bread", testRecipe.getInstructions());
+  //   assertEquals(testRecipe, Recipe.all().get(0));
   // }
 
 }
